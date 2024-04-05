@@ -2,7 +2,7 @@
 
 UNH - COMP741/841
 
-Chris Puzzoi, Christian Jackson
+Chris Puzzo, Christian Jackson
 
 4/4/2024
 
