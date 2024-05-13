@@ -10,14 +10,19 @@
 ## pip install rouge_score
 
 
-# Create two lists/arrays to store the responses to be compared
+# Create ists/arrays to store the LLM responses to be compared
 
-untuned = []  # contains the responses from Llama2 before fine tuning
-tuned = (
-    []
-)  # contains responses from Llama2 after fine tuning on the privacy_policy dataset from huggingface
+# contains the responses from Llama2 before fine tuning
+untuned = []
+
+# contains responses from Llama2 after fine tuning on the privacy_policy dataset from huggingface
+tuned = []
+
+# contains succinct reponses from GPT4
+gpt4 = []
 
 ## q1 prompt = "What types of personal data are collected according to this policy: " + policy
+
 untuned.append(
     """
 According to the Privacy Policy provided, TopHive collects the following types of personal data:
@@ -33,7 +38,6 @@ You can visit the website without providing any personal data, but you may not b
 tuned.append(
     """
 According to the TopHive website, the following types of personal data are collected:
-
 1. Device Information: This includes information about your device, such as your web browser, IP address, time zone, and installed cookies.
 2. Personal Information: This includes information you provide to us during registration, such as your name, address, company, email address, etc.
 3. Information collected automatically: This includes information about the individual web pages or products you view, the websites or search terms that referred you to the Site, and how you interact with the Site.
@@ -46,6 +50,14 @@ According to the TopHive website, the following types of personal data are colle
 10. Information you provide to us through the newsletter: This includes information you provide to us through the newsletter, such as your email, name, last name, city of residence, organization, telephone number.
 11. Information you provide to us through the website: This includes information you provide to us through the website, such as your email, name, last name, city of residence, organization, telephone number.
 12. Information you provide to us through the newsletter: This includes information you provide to us through the newsletter, such as your email, name, last name, city of residence, organization, telephone
+"""
+)
+
+gpt4.append(
+    """
+The types of personal data collected by TopHive according to their policy include:
+Device Information: This automatically collected data includes details about your device, such as your web browser, IP address, time zone, and the cookies installed on your device. It also includes information on the web pages you view on the site, your navigation paths within the site, the websites or search terms that referred you to the site, and your interactions with the site.
+Personal Data Provided by Users: This includes data you voluntarily provide during registration or other interactions, such as your name, address, company, email address, last name, city of residence, organization, and telephone number.
 """
 )
 
@@ -66,8 +78,12 @@ tuned.append(
     """Yes, this policy addresses data sharing with third parties. According to the policy, TopHive may share your personal data with third parties for marketing activities."""
 )
 
+gpt4.append(
+    """The provided policy does not explicitly state whether TopHive shares personal data with third parties. It focuses on the types of personal information collected, the reasons for its collection, and the commitment to data security and confidentiality, but it does not address data sharing practices with third parties directly."""
+)
 
 ## q3 prompt = "How does this company share user data with third parties according to this policy?" + policy
+
 untuned.append(
     """
 According to the policy, TopHive shares user data with third parties for the following reasons:
@@ -93,6 +109,20 @@ TopHive shares user data with third parties for the following purposes:
 10. Other purposes: TopHive may share user data with third parties for other purposes, such as to provide you with special offers or promotions.
 """
 )
+
+gpt4.append(
+    """
+TopHive shares user data with third parties primarily for marketing activities. They collect both automatically generated device information and personal data provided by users. This information is used to identify users for marketing purposes, suggesting that third parties involved are likely those who assist in or benefit from marketing and advertising efforts. The privacy policy does not explicitly list the third parties but indicates the use of user data for these activities.
+"""
+)
+
+
+gpt4.append(
+    """
+TopHive shares user data with third parties primarily for marketing activities. They collect both automatically generated device information and personal data provided by users. This information is used to identify users for marketing purposes, suggesting that third parties involved are likely those who assist in or benefit from marketing and advertising efforts. The privacy policy does not explicitly list the third parties but indicates the use of user data for these activities.
+"""
+)
+
 
 ## q4 prompt = "How does this company collect data according to this policy: " + policy
 
@@ -121,6 +151,15 @@ You can visit the website without providing personal information, but you may no
 """
 )
 
+gpt4.append(
+    """
+TopHive collects data in the following ways according to their Privacy Policy:
+Automatically Collected Device Information: When you visit the TopHive website, they automatically gather information about your device, such as your web browser, IP address, time zone, and cookies installed on your device. They also collect data on the web pages you view, the websites or search terms that brought you to the site, and your interactions with the site.
+Information You Provide: This includes personal data that you voluntarily provide during registration or other interactions, such as your name, address, email address, company name, city of residence, organization, and telephone number. This type of data is collected when you fill out forms, register for services, or subscribe to newsletters.
+The purpose of processing this data includes ensuring the security and functionality of their website and conducting marketing activities. Users have the option to visit the site anonymously, but certain features may not be available without providing personal data.
+"""
+)
+
 ## q5 prompt = "How can I opt out of data collection or marketing according to this policy: " + policy
 
 untuned.append(
@@ -137,6 +176,16 @@ tuned.append(
     """According to the TopHive website, you can opt out of data collection or marketing by contacting privacy@tophive.ai. """
 )
 
+gpt4.append(
+    """
+To opt out of data collection or marketing at TopHive, you can:
+Avoid Providing Personal Data: You do not have to provide personal data to browse the site. By not providing personal data, you can avoid certain features like newsletters or direct contact forms, which may reduce your exposure to marketing.
+Contact Privacy Support: Reach out to TopHive through their privacy support email at privacy@tophive.ai. You can inquire about specific data usage and request the deletion or discontinuation of your data use for marketing purposes.
+Adjust Your Browser Settings: Control the collection of certain device-related data by adjusting your web browser’s privacy settings to limit cookie tracking and disable location sharing.
+Review and Modify Data Consent: When filling out forms or registering on the website, carefully review the consent clauses and opt out of any data sharing or marketing options if provided.
+"""
+)
+
 
 ## q6 prompt = "How often is this policy reviewed and updated: " + policy
 
@@ -148,10 +197,13 @@ It is important to note that the Privacy Policy is a living document that may be
 )
 
 tuned.append(
-    """
-This policy is reviewed and updated on a regular basis, at least once a year or whenever there is a material change to the way we handle personal information. 
-"""
+    """This policy is reviewed and updated on a regular basis, at least once a year or whenever there is a material change to the way we handle personal information. """
 )
+
+gpt4.append(
+    """The policy does not specify how frequently it is reviewed and updated. For such details, you should contact the administrators of the TopHive website or refer to any section within the policy that might discuss its revision schedule, if available."""
+)
+
 
 ## q7 prompt = "How does this policy cover the use of cookies: " + policy
 
@@ -168,10 +220,18 @@ This policy covers the use of cookies on the TopHive website. Here are the key p
 )
 
 tuned.append(
+    """This policy covers the use of cookies on the TopHive website. TopHive is the data controller of your personal data.   We have adopted this Privacy Policy, which determines how we are processing the information collected by TopHive, and also provides the reasons why we must collect certain personal data of you. Therefore, you must read this Privacy Policy before using TopHive website.   We take care of your personal data and undertake to guarantee its confidentiality and security.   PERSONAL INFORMATION WE COLLECT:   When you visit TopHive, we automatically collect certain information about your device, including your web browser, IP address, time zone, and some of the installed cookies on your device. Additionally, as you browse the Site, we collect information about the individual web pages or products you view, what websites or search terms referred you to the Site, and how you interact with the Site. We refer to this automatically collected information as “Device Information.” Moreover, we might collect the personal data you provide to us (including, but not limited to, Name, Address, Company, Email Address etc.) during registration to fulfill the agreement.   Why do we process your data?   Our top priority is customer data security and as such, we may process only minimal user data, only as much as it is absolutely necessary to maintain the website. Information collected automatically is used only to identify users for marketing activities.   You can visit the website without telling us who you are or revealing any information by which someone could identify you as a specific, identifiable individual. If, however, you wish to use some of the website’s features, or you wish to receive our newsletter or provide other details by filling out a form, you may provide personal data to us, such as your email, name, last name, city of residence, organization, telephone number. You can choose not to provide us with your personal data, but then you may not be able to take advantage of some of the website’s features. For example, you won’t be able to receive our Newsletter or contact us directly from the website. Users who are uncertain about what information is mandatory are welcome to contact us via privacy@tophive.ai """
+)
+
+gpt4.append(
     """
-This policy covers the use of cookies on the TopHive website. TopHive is the data controller of your personal data.   We have adopted this Privacy Policy, which determines how we are processing the information collected by TopHive, and also provides the reasons why we must collect certain personal data of you. Therefore, you must read this Privacy Policy before using TopHive website.   We take care of your personal data and undertake to guarantee its confidentiality and security.   PERSONAL INFORMATION WE COLLECT:   When you visit TopHive, we automatically collect certain information about your device, including your web browser, IP address, time zone, and some of the installed cookies on your device. Additionally, as you browse the Site, we collect information about the individual web pages or products you view, what websites or search terms referred you to the Site, and how you interact with the Site. We refer to this automatically collected information as “Device Information.” Moreover, we might collect the personal data you provide to us (including, but not limited to, Name, Address, Company, Email Address etc.) during registration to fulfill the agreement.   Why do we process your data?   Our top priority is customer data security and as such, we may process only minimal user data, only as much as it is absolutely necessary to maintain the website. Information collected automatically is used only to identify users for marketing activities.   You can visit the website without telling us who you are or revealing any information by which someone could identify you as a specific, identifiable individual. If, however, you wish to use some of the website’s features, or you wish to receive our newsletter or provide other details by filling out a form, you may provide personal data to us, such as your email, name, last name, city of residence, organization, telephone number. You can choose not to provide us with your personal data, but then you may not be able to take advantage of some of the website’s features. For example, you won’t be able to receive our Newsletter or contact us directly from the website. Users who are uncertain about what information is mandatory are welcome to contact us via privacy@tophive.ai 
+This privacy policy outlines TopHive's data collection and use practices. It describes how TopHive collects both "Device Information" and personal data directly from users. Device Information is collected automatically when a user visits the website and includes data like browser type, IP address, and time zone. Personal data is collected when users voluntarily provide it during processes like registration or filling out forms. This personal data can include names, addresses, email addresses, and other contact information.
+The policy explains that data collection is primarily for website maintenance and marketing activities. It also emphasizes data security and confidentiality as a top priority for TopHive.
+Users have the option not to provide personal data, but this may limit their ability to use certain website features, such as receiving newsletters or contacting TopHive directly. The policy assures users that they can access the website anonymously without compromising their identity.
+For questions about mandatory information and data usage, users are encouraged to contact TopHive through a provided email address.
 """
 )
+
 
 ## q8 prompt = "Does this policy describe the use of third party services: " + policy
 
@@ -188,10 +248,13 @@ In summary, TopHive collects device information and personal data from users dur
 )
 
 tuned.append(
-    """
-Yes, this policy describes the use of third-party services.   The policy states that the company may collect information from third parties, such as social media platforms, and use that information to enhance the user experience. Additionally, the policy states that the company may use third-party services to collect and analyze data about users' use of the website. 
-"""
+    """Yes, this policy describes the use of third-party services.   The policy states that the company may collect information from third parties, such as social media platforms, and use that information to enhance the user experience. Additionally, the policy states that the company may use third-party services to collect and analyze data about users' use of the website. """
 )
+
+gpt4.append(
+    """Yes, the provided policy describes the use of third-party services in relation to how TopHive processes and collects personal data. The policy outlines the types of information collected, the purposes for processing the data, and the measures taken to protect and secure user data."""
+)
+
 
 ## q9 prompt = "How does this policy govern the use of my data: " + policy
 
@@ -216,10 +279,20 @@ Overall, the policy explains how TopHive handles personal data and provides user
 )
 
 tuned.append(
+    """This policy governs the use of your data by TopHive, a data controller of your personal data. TopHive has adopted this Privacy Policy, which determines how we are processing the information collected by TopHive and also provides the reasons why we must collect certain personal data of you. Therefore, you must read this Privacy Policy before using TopHive website. We take care of your personal data and undertake to guarantee its confidentiality and security.   PERSONAL INFORMATION WE COLLECT:   When you visit TopHive, we automatically collect certain information about your device, including your web browser, IP address, time zone, and some of the installed cookies on your device. Additionally, as you browse the Site, we collect information about the individual web pages or products you view, what websites or search terms referred you to the Site, and how you interact with the Site. We refer to this automatically collected information as “Device Information.” Moreover, we might collect the personal data you provide to us (including, but not limited to, Name, Address, Company, Email Address etc.) during registration to fulfill the agreement.   Why do we process your data?   Our top priority is customer data security and as such, we may process only minimal user data, only as much as it is absolutely necessary to maintain the website. Information collected automatically is used only to identify users for marketing activities.   You can visit the website without telling us who you are or revealing any information by which someone could identify you as a specific, identifiable individual. If, however, you wish to use some of the website’s features, or you wish to receive our newsletter or provide other details by filling out a form, you may provide personal data to us, such as your email, name, last name, city of residence, organization, telephone number. You can choose not to provide us with your personal data, but then you may not be able to take advantage of some of the website’s features. For example, you won’t be able to receive our Newsletter or contact us directly from the website. Users who are uncertain about what information is mandatory are welcome to contact us via privacy@tophive.ai """
+)
+
+gpt4.append(
     """
-This policy governs the use of your data by TopHive, a data controller of your personal data. TopHive has adopted this Privacy Policy, which determines how we are processing the information collected by TopHive and also provides the reasons why we must collect certain personal data of you. Therefore, you must read this Privacy Policy before using TopHive website. We take care of your personal data and undertake to guarantee its confidentiality and security.   PERSONAL INFORMATION WE COLLECT:   When you visit TopHive, we automatically collect certain information about your device, including your web browser, IP address, time zone, and some of the installed cookies on your device. Additionally, as you browse the Site, we collect information about the individual web pages or products you view, what websites or search terms referred you to the Site, and how you interact with the Site. We refer to this automatically collected information as “Device Information.” Moreover, we might collect the personal data you provide to us (including, but not limited to, Name, Address, Company, Email Address etc.) during registration to fulfill the agreement.   Why do we process your data?   Our top priority is customer data security and as such, we may process only minimal user data, only as much as it is absolutely necessary to maintain the website. Information collected automatically is used only to identify users for marketing activities.   You can visit the website without telling us who you are or revealing any information by which someone could identify you as a specific, identifiable individual. If, however, you wish to use some of the website’s features, or you wish to receive our newsletter or provide other details by filling out a form, you may provide personal data to us, such as your email, name, last name, city of residence, organization, telephone number. You can choose not to provide us with your personal data, but then you may not be able to take advantage of some of the website’s features. For example, you won’t be able to receive our Newsletter or contact us directly from the website. Users who are uncertain about what information is mandatory are welcome to contact us via privacy@tophive.ai 
+This policy outlines how TopHive handles your personal data. It states:
+Data Collection: TopHive collects both automatic data (like browser, IP address, cookies) and user-provided data (like name, email) as you use their site.
+Purpose of Data Collection: The data is used for maintaining the website, marketing purposes, and providing requested services.
+Data Security and Confidentiality: TopHive commits to protecting your data's security and confidentiality.
+Voluntary Provision of Data: You can choose to not provide personal data, but this may restrict access to certain features, such as receiving newsletters.
+Contact Information: For uncertainties about mandatory data, contact privacy@tophive.ai.
 """
 )
+
 
 ## q10 prompt = "Summarize this policy for me: " + policy
 
@@ -239,10 +312,13 @@ If you have any questions or concerns about this privacy policy, you can contact
 )
 
 tuned.append(
-    """
-TopHive is a website owned by TopHive, a data controller of your personal data. They have adopted this Privacy Policy to determine how they collect, use, and protect your personal data.   They collect information about your device, including your web browser, IP address, time zone, and installed cookies. They also collect information about the pages you view and how you interact with the website.   They may collect personal data you provide during registration, such as name, address, company, email address, etc.   They use this information to maintain the website, identify users for marketing activities, and provide you with their newsletter.   You can visit the website without providing personal information, but you may not be able to take advantage of some of the website's features.   If you have any questions or concerns about their privacy policy, you can contact them via privacy@tophive.ai.
-"""
+    """TopHive is a website owned by TopHive, a data controller of your personal data. They have adopted this Privacy Policy to determine how they collect, use, and protect your personal data.   They collect information about your device, including your web browser, IP address, time zone, and installed cookies. They also collect information about the pages you view and how you interact with the website.   They may collect personal data you provide during registration, such as name, address, company, email address, etc.   They use this information to maintain the website, identify users for marketing activities, and provide you with their newsletter.   You can visit the website without providing personal information, but you may not be able to take advantage of some of the website's features.   If you have any questions or concerns about their privacy policy, you can contact them via privacy@tophive.ai."""
 )
+
+gpt4.append(
+    """TopHive's Privacy Policy outlines how they handle personal data collected on their website. They collect information both automatically (device information like web browser, IP address, and site interaction) and directly from users (such as name, address, and email) primarily for security, marketing, and to provide website features. Personal data provision is optional, but some site features may be inaccessible without it. TopHive emphasizes data security and minimal data use to maintain site function. Users can contact them for clarifications on required data via privacy@tophive.ai."""
+)
+
 
 ## q11 prompt = "How can I opt out of data collection or marketing communications from this policy: " + policy
 
@@ -271,6 +347,17 @@ You can opt out of data collection and marketing communications from TopHive by 
 8. Use a VPN: A Virtual Private Network (VPN) can help you to protect your privacy by encrypting your internet traffic and hiding your IP address. This can help to prevent websites from tracking your online activities.
 9. Use a browser that blocks tracking: Some web browsers, such as Tor, are designed to block tracking by websites. These browsers can help to protect your privacy by blocking cookies and other tracking technologies.
 10. Contact your internet service provider: If you are concerned about the types of data that are being collected about you, you may want to contact your internet service provider to ask about their privacy policies and the types of data they collect. They may be able to provide you with more information about the types of data they collect and how they use it.
+"""
+)
+
+gpt4.append(
+    """
+To opt out of data collection and marketing communications from TopHive, you can follow these steps:
+Contact via Email: Send an email to privacy@tophive.ai expressing your desire to opt out of data collection and any marketing communications. Be specific about which data processing activities you want to opt out of, and which communications you no longer wish to receive.
+Adjust Your Account Settings: If you have an account with TopHive, check for options in your account settings that allow you to control the collection and use of your personal data. You may be able to adjust preferences related to marketing communications or deactivate certain features that collect data.
+Unsubscribe from Newsletters: If you receive newsletters or promotional emails from TopHive, you can use the unsubscribe link found at the bottom of the email to opt out of future communications.
+Use Website Features Anonymously: According to the policy, you can use the website anonymously without revealing personal data that could identify you. If you choose not to provide personal data, note that some features may not be available.
+Contact for Clarifications: If you are unsure about what information is mandatory or have specific questions regarding your personal data, contacting TopHive directly at the provided email address is advisable for further clarification and assistance.
 """
 )
 
@@ -311,14 +398,61 @@ I hope these suggestions are helpful in improving the privacy policy of TopHive.
 """
 )
 
+gpt4.append(
+    """
+The policy could be improved for clarity, conciseness, and user understanding in several ways:
+Clearer Ownership and Purpose:
+Simplify and clarify the opening statement to immediately inform the reader of the purpose of the policy and who it applies to.
+Enhanced Readability:
+Break down complex sentences into simpler ones.
+Use bullet points for lists, such as the types of collected data, to improve readability.
+Concise Language:
+Reduce redundancy and remove unnecessary clauses that don't add value to the understanding of the policy.
+Specific Sections and Headings:
+Use distinct headings for different sections like ‘Personal Information We Collect’, ‘Why We Process Your Data’, and ‘Your Rights’ to structure the document better and make it easier to navigate.
+Transparent Processing Information:
+Specify which types of data are processed automatically and which require explicit consent.
+Clarify the use of automatically collected data versus data provided by the user.
+Data Security and Confidentiality:
+Highlight how personal data is protected and what measures are in place to ensure its security.
+User Choices and Rights:
+Provide clear options for users regarding how they can manage or withdraw their consent, access the data you have about them, or request data deletion.
+Contact Information:
+Clearly mention how users can contact you for privacy concerns, preferably at the beginning or end of the document.
+Here's a revised version of the policy, incorporating these suggestions:
+Privacy Policy
+Introduction: Welcome to the TopHive website, owned and operated by TopHive. This Privacy Policy outlines how we handle your personal data to ensure your privacy and security. Please review this policy before using our services.
+Data Controller: TopHive is the data controller of your personal data.
+Personal Information We Collect:
+Automatically Collected Information: When you visit our website, we automatically collect information about your device and interaction with our site. This includes your web browser, IP address, time zone, and some cookies installed on your device.
+Information You Provide: This includes any personal details you provide during registration or while using our services, such as your name, address, email, and telephone number.
+Purpose of Data Processing: Our primary goal in processing your data is to enhance site security and user experience. Data collected automatically supports our marketing activities and website maintenance. We process minimal personal data, strictly necessary for these purposes.
+Your Privacy Rights: You can browse our site without providing personal data. However, some features require personal data to function, such as our newsletter or contact forms. You have the right to access, modify, or delete your information and can manage your preferences at any time.
+Data Security: We are committed to protecting your data and maintaining its confidentiality through stringent security measures.
+Contact Us: For questions about this policy or your personal data, please contact us at privacy@tophive.ai.
+This revision aims to make the policy more accessible and straightforward for users while ensuring all necessary legal information is included.
+"""
+)
+
 # Import the module
 from rouge_score import rouge_scorer
 
-## Calculate ROUGE scores
+## Calculate ROUGE scores for the untuned Llama27b model compared to GPT4
 
+print("\n\nROUGE scores comparing untuned Llama2-7b vs GPT-4 baseline")
 scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
 for i in range(12):
     print("Question ", i + 1)
-    scores = scorer.score(untuned[i], tuned[i])
+    scores = scorer.score(untuned[i], gpt4[i])
+    for key in scores:
+        print(f"{key}: {scores[key]}")
+
+## Calculate ROUGE scores for the fine-tuned Llama27b model compared to GPT4
+
+print("\n\nROUGE scores comparing fine-tuned Llama2-7b vs GPT-4 baseline")
+scorer = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
+for i in range(12):
+    print("Question ", i + 1)
+    scores = scorer.score(tuned[i], gpt4[i])
     for key in scores:
         print(f"{key}: {scores[key]}")
