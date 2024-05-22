@@ -24,5 +24,6 @@ There is no requirments file in this repo because it uses dependencies pre-insta
 on colab.
 
 ## Results
-tbd
-
+We did some small amouts of testing on the model however we got pretty unconclusive data. As you can see in the rouge 
+excel sheet, the scores weren't great. However we believe that the rouge testinging metric might not be the best way
+to judge this.
