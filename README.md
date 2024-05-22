@@ -23,6 +23,16 @@ avalible [here](https://colab.research.google.com/drive/1PEQyJO1-f6j0S_XJ8DV50Nk
 There is no requirments file in this repo because it uses dependencies pre-installed
 on colab.
 
+## Usage
+This model is used with the huggingface transformers library it is run using the following:
+```
+# Load model directly
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+tokenizer = AutoTokenizer.from_pretrained("ChrisPuzzo/llama-2-7b-privacy")
+model = AutoModelForCausalLM.from_pretrained("ChrisPuzzo/llama-2-7b-privacy")
+```
+
 ## Results
 We did some small amouts of testing on the model however we got pretty unconclusive data. As you can see in the rouge 
 excel sheet, the scores weren't great. However we believe that the rouge testinging metric might not be the best way
