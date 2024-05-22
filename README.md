@@ -3,7 +3,7 @@ __By Chris Puzzo and Christain Jackson__
 
 __For Comp741/841__
 
-__README updated: 5/10/24__
+__README updated: 5/22/24__
 
 The basis of this problem is to fine-tune Meta's Llama 2 Transformer using PEFT
 and QloRA in order to be able to analyze privacy Policies.
@@ -24,5 +24,6 @@ There is no requirments file in this repo because it uses dependencies pre-insta
 on colab.
 
 ## Results
-tbd
-
+We did some small amouts of testing on the model however we got pretty unconclusive data. As you can see in the rouge 
+excel sheet, the scores weren't great. However we believe that the rouge testinging metric might not be the best way
+to judge this.
