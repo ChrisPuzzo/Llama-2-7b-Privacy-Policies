@@ -3,7 +3,7 @@ __By Chris Puzzo and Christain Jackson__
 
 __For Comp741/841__
 
-__README updated: 5/10/24__
+__README updated: 5/22/24__
 
 The basis of this problem is to fine-tune Meta's Llama 2 Transformer using PEFT
 and QloRA in order to be able to analyze privacy Policies.
